@@ -27,7 +27,7 @@ function findSmallest(snakes, ladders) {
   let moves = [[0, 0]]; // queue with push and shift
 
   while (moves.length > 0) {
-    let [pos, numMoves] = moves.shift();
+    let [pos, numMoves] = moves.pop();
     if (!visited[pos]) {
       visited[pos] = true;
       for (let next = pos + 1; next < pos + 7; next++) {
@@ -67,5 +67,8 @@ ladders = {
   71: 91,
   80: 100
 };
-
-console.log(findSmallest(snakes, ladders));
+let start = Date.now();
+for (let i = 0; i < 10000; i++) {
+  findSmallest(snakes, ladders);
+}
+console.log((Date.now() - start) / 1000);
