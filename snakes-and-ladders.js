@@ -21,33 +21,27 @@ For convenience, here are the squares representing snakes and ladders, and their
 let moves = Array(100).fill(false);
 
 function findSmallest(snakes, ladders) {
-  const destination = 100;
+  let visited = Array(100).fill(false);
+  let smallest = 99;
+  const destination = 99;
+  let moves = [[0, 0]]; // queue with push and shift
 
-  const findRoute = position => {
-    if (position === 100) return 0;
-    if (position >= 94) return 1;
-
-    let nextPos = [];
-    for (let roll = 1; roll < 7; roll++) {
-      let next = position + roll;
-      if (ladders[next] !== undefined) {
-        nextPos.push(ladders[next]);
-      } else if (snakes[next] === undefined) {
-        nextPos.push(next);
+  while (moves.length > 0) {
+    let [pos, numMoves] = moves.shift();
+    if (!visited[pos]) {
+      visited[pos] = true;
+      for (let next = pos + 1; next < pos + 7; next++) {
+        let nextPos = ladders[next] || snakes[next] || next;
+        if (nextPos >= destination) {
+          smallest = Math.min(smallest, numMoves + 1);
+        } else {
+          moves.push([nextPos, numMoves + 1]);
+        }
       }
     }
+  }
 
-    let min = Number.NEGATIVE_INFINITY;
-    for (let pos of nextPos) {
-      let numMoves = 1 + findRoute(pos);
-      if (numMoves < min) {
-        min = numMoves;
-      }
-    }
-    return min;
-  };
-
-  return findRoute(0);
+  return smallest;
 }
 
 snakes = {
