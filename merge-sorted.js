@@ -17,18 +17,39 @@ function ListNode(val) {
 }
 
 var mergeTwoLists = function(l1, l2) {
+  if (!l1 && !l2) return null;
   let head = new ListNode();
   let node = head;
+  let prev;
   while (l1 && l2) {
     let val;
-    if (!l1 || l2.val < l1.val) {
+    prev = node;
+    if (l2.val < l1.val) {
       val = l2.val;
       l2 = l2.next;
     } else {
       val = l1.val;
       l1 = l1.next;
     }
-    node.next = new ListNode(val);
+    node.val = val;
+    node.next = new ListNode();
     node = node.next;
   }
+  while (l1) {
+    node.val = l1.val;
+    node.next = new ListNode();
+    prev = node;
+    node = node.next;
+    l1 = l1.next;
+  }
+  while (l2) {
+    node.val = l2.val;
+    node.next = new ListNode();
+    prev = node;
+    node = node.next;
+    l2 = l2.next;
+  }
+  if (prev) prev.next = null;
+
+  return head;
 };

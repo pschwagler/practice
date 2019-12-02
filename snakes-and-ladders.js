@@ -23,7 +23,7 @@ let moves = Array(100).fill(false);
 function findSmallest(snakes, ladders) {
   let visited = Array(100).fill(false);
   let smallest = 99;
-  const destination = 99;
+  const destination = Number.POSITIVE_INFINITY;
   let moves = [[0, 0]]; // queue with push and shift
 
   while (moves.length > 0) {
