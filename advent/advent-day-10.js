@@ -22,11 +22,12 @@ function countAsteroids(map, y, x) {
         break;
       }
     }
-    let [y2, x2] = [y1 + deltaY, x1 + deltaX];
+    blocked[y1][x1] = true;
+    [y1, x1] = [y1 + deltaY, x1 + deltaX];
 
-    while (y2 >= 0 && y2 < numRows && x2 >= 0 && x2 < numCols) {
-      blocked[y2][x2] = true;
-      [y2, x2] = [y2 + deltaY, x2 + deltaX];
+    while (y1 >= 0 && y1 < numRows && x1 >= 0 && x1 < numCols) {
+      blocked[y1][x1] = true;
+      [y1, x1] = [y1 + deltaY, x1 + deltaX];
     }
   };
 
@@ -70,11 +71,17 @@ fs.readFile(testFile, "utf8", function(err, data) {
   );
 
   console.log(
-    data.reduce((memo, row, r) => {
-      let max = row.reduce((_, __, c) =>
-        countAsteroids(data, r, c) > memo ? countAsteroids(data, r, c) : memo
+    data.reduce((memo1, row, r) => {
+      let max = row.reduce(
+        (memo2, cell, c) =>
+          cell
+            ? memo2
+            : countAsteroids(data, r, c) > memo2
+            ? countAsteroids(data, r, c)
+            : memo2,
+        0
       );
-      return max > memo ? max : memo;
+      return max > memo1 ? max : memo1;
     }, 0)
   );
 });
