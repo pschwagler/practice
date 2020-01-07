@@ -117,7 +117,7 @@ const computeCircuit = (orig, test) => {
       }
       i += 4;
     } else if (command === operation.HALT) {
-      return output;
+      return [output, i + 2];
     } else {
       console.log(command, "is not a command");
     }
@@ -185,3 +185,11 @@ fs.readFile(testFile, "utf8", function(err, data) {
   // let max = findMaxCode(data, [0, 1, 2, 3, 4]);
   // console.log(max);
 });
+
+/*
+
+3,26,1001,26,-4,26,3,27,1002,27, 2,27, 1,27,26,27, 4,27,1001,28,-1,28,1005,28, 6,99, 5, 23, 5
+0  1    2  3  4  5 6  7    8  9 10 11 12 13 14 15 16 17   18 19 20 21   22 23 24 25 26 27 28
+
+
+*/
